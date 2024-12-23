@@ -39,6 +39,16 @@ public class MovieController {
         return ResponseEntity.ok(movie);
     }
 
+    // Obtener película por titulo -> /movies/"inception"
+    @GetMapping("/{title}")
+    public ResponseEntity<?> getMovieByTitle(@PathVariable String  title) {
+        // Excepciones posibles que pueden ser lanzadas:
+        // MovieNotFoundException si no se encuentra la película
+        MovieDTO movie = movieService.getMovieByTitle(title);
+        return ResponseEntity.ok(movie);
+    }
+
+
     // Crear nueva película
     @PostMapping
     public ResponseEntity<?> createMovie(@Valid @RequestBody MovieRequest newMovie) {

@@ -45,6 +45,16 @@ public class MovieService {
         return movieMapper.toDTO(movie);  // Convertir la entidad Movie a DTO
     }
 
+    // Obtener una película por su titulo
+    public MovieDTO getMovieByTitle(String title) {
+        String trimmedTitle = title.trim();
+        Movie movie = movieRepository.findByTitleIgnoreCase(trimmedTitle)
+                .orElseThrow(() -> {
+                    return new MovieNotFoundException("Película con título '" + title + "' no encontrada");
+                });
+        return movieMapper.toDTO(movie);
+    }
+
     //Crear pelicula
     public MovieDTO createMovie(MovieRequest movieRequest) {
         try {
