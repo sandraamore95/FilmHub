@@ -3,7 +3,8 @@ import com.FilmHub.movie_service.exceptions.DuplicateMovieException;
 import com.FilmHub.movie_service.exceptions.MovieNotFoundException;
 import com.FilmHub.movie_service.mapper.MovieMapper;
 import com.FilmHub.movie_service.models.Movie;
-import com.FilmHub.movie_service.payload.MovieDTO;
+import com.FilmHub.movie_service.payload.dto.MovieDTO;
+import com.FilmHub.movie_service.payload.request.MovieRequest;
 import com.FilmHub.movie_service.repository.MovieRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,18 +46,18 @@ public class MovieService {
     }
 
     //Crear pelicula
-    public MovieDTO createMovie(MovieDTO movieDTO) {
+    public MovieDTO createMovie(MovieRequest movieRequest) {
         try {
-            Movie movie = movieMapper.toEntity(movieDTO); // Convertir MovieDTO a entidad Movie
-            Movie savedMovie = movieRepository.save(movie);
+            Movie movie = movieMapper.toEntity(movieRequest);// Convertir MovieRequest a entidad Movie
+            Movie savedMovie = movieRepository.save(movie); //guarda en BD
             return movieMapper.toDTO(savedMovie);
         } catch (DataIntegrityViolationException ex) {
-            throw new DuplicateMovieException("La película con el título '" + movieDTO.getTitle() + "' ya existe.");
+            throw new DuplicateMovieException("La película con el título '" + movieRequest.getTitle() + "' ya existe.");
         }
     }
 
     //Update peliucula
-    public MovieDTO updateMovie(Long id, MovieDTO movieDTO) {
+    public MovieDTO updateMovie(Long id, MovieRequest movieRequest) {
         try {
 
             // Verificar que existe la película
@@ -64,21 +65,21 @@ public class MovieService {
                     .orElseThrow(() -> new MovieNotFoundException("Película con ID " + id + " no encontrada"));
 
             // Actualizar solo los campos que se proporcionan en el DTO
-            if (StringUtils.hasText(movieDTO.getTitle())) {
-                existingMovie.setTitle(movieDTO.getTitle());
+            if (StringUtils.hasText(movieRequest.getTitle())) {
+                existingMovie.setTitle(movieRequest.getTitle());
             }
-            if (StringUtils.hasText(movieDTO.getDirector())) {
-                existingMovie.setDirector(movieDTO.getDirector());
+            if (StringUtils.hasText(movieRequest.getDirector())) {
+                existingMovie.setDirector(movieRequest.getDirector());
             }
-            if (movieDTO.getReleaseYear() > 0) {
-                existingMovie.setReleaseYear(movieDTO.getReleaseYear());
+            if (movieRequest.getReleaseYear() > 0) {
+                existingMovie.setReleaseYear(movieRequest.getReleaseYear());
             }
 
             // Guardar la película actualizada en el repositorio
             Movie updatedMovie = movieRepository.save(existingMovie);
             return movieMapper.toDTO(updatedMovie);
         } catch (DataIntegrityViolationException ex) {
-            throw new DuplicateMovieException("La película con el título '" + movieDTO.getTitle() + "' ya existe.");
+            throw new DuplicateMovieException("La película con el título '" + movieRequest.getTitle() + "' ya existe.");
         }
     }
 

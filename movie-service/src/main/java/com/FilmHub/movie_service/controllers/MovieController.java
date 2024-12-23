@@ -1,8 +1,7 @@
 package com.FilmHub.movie_service.controllers;
 
-import com.FilmHub.movie_service.exceptions.DuplicateMovieException;
-import com.FilmHub.movie_service.exceptions.MovieNotFoundException;
-import com.FilmHub.movie_service.payload.MovieDTO;
+import com.FilmHub.movie_service.payload.dto.MovieDTO;
+import com.FilmHub.movie_service.payload.request.MovieRequest;
 import com.FilmHub.movie_service.service.MovieService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,20 +41,20 @@ public class MovieController {
 
     // Crear nueva película
     @PostMapping
-    public ResponseEntity<?> createMovie(@Valid @RequestBody MovieDTO movieDTO) {
+    public ResponseEntity<?> createMovie(@Valid @RequestBody MovieRequest newMovie) {
         // Excepciones posibles que pueden ser lanzadas:
         // DuplicateMovieException si ya existe una película con el mismo título
-        MovieDTO savedMovie = movieService.createMovie(movieDTO);
+        MovieDTO savedMovie = movieService.createMovie(newMovie);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMovie);
     }
 
     // Actualizar película
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO) {
+    public ResponseEntity<?> updateMovie(@PathVariable Long id, @RequestBody MovieRequest newMovie) {
         // Excepciones posibles que pueden ser lanzadas:
         // MovieNotFoundException si no se encuentra la película con el ID especificado
         // DuplicateMovieException si ya existe una película con el mismo título
-        MovieDTO updatedMovie = movieService.updateMovie(id, movieDTO);
+        MovieDTO updatedMovie = movieService.updateMovie(id, newMovie);
         return ResponseEntity.ok(updatedMovie);
     }
 
