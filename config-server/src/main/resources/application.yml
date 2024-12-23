@@ -1,0 +1,25 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: microservice-config
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/configurations
+
+spring.config.import: 'optional:configserver:http://localhost:8888'
+
+
+# Ejemplo de configuraci�n espec�fica en configuraciones
+# - msvc-eureka.yml
+# - msvc-gateway.yml
+# - msvc-movie.yml
+# - msvc-user.yml
+# - msvc-favorites.yml
+
+

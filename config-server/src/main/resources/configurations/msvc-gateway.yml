@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: msvc-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: movie-microservice
+          uri: lb://msvc-movie
+          predicates:
+            - Path=/api/movies/**
+          filters:
+            - RewritePath=/api/(?<movies>.*), /$\{movies}
+        - id: user-microservice
+          uri: lb://msvc-user
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - RewritePath=/api/(?<users>.*), /$\{users}
+        - id: favorite-microservice
+          uri: lb://msvc-favorite
+          predicates:
+            - Path=/api/favorites/**
+          filters:
+            - RewritePath=/api/(?<favorites>.*), /$\{favorites}
+eureka:
+  client:
+    register-with-eureka: false
