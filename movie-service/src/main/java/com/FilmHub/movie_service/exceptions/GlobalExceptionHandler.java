@@ -22,6 +22,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(ActorNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleActorNotFound(ActorNotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), "ACTOR_NOT_FOUND");
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DuplicateActorException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateActor(DuplicateActorException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), "ACTOR_DUPLICATE");
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
         String errorMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();

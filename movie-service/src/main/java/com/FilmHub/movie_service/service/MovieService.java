@@ -78,9 +78,6 @@ public class MovieService {
             if (StringUtils.hasText(movieRequest.getTitle())) {
                 existingMovie.setTitle(movieRequest.getTitle());
             }
-            if (StringUtils.hasText(movieRequest.getDirector())) {
-                existingMovie.setDirector(movieRequest.getDirector());
-            }
             if (movieRequest.getReleaseYear() > 0) {
                 existingMovie.setReleaseYear(movieRequest.getReleaseYear());
             }
