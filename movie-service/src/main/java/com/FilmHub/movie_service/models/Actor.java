@@ -13,8 +13,17 @@ public class Actor {
     @Column(nullable = false)
     private String name;
 
+    //relacion actor -> movie
     @ManyToMany(mappedBy = "actors")
     private Set<Movie> movies = new HashSet<>();
+
+    public Actor() {
+    }
+
+    public Actor(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     // Getters y setters
     public Long getId() {

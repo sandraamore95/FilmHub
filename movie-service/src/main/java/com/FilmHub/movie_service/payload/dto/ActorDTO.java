@@ -1,8 +1,10 @@
 package com.FilmHub.movie_service.payload.dto;
+import jakarta.validation.constraints.NotBlank;
 
 public class ActorDTO {
 
     private Long id;
+    @NotBlank(message = "El nombre es obligatorio")
     private String name;
 
     // Getters y Setters

@@ -13,6 +13,7 @@ public interface MovieMapper {
         @Mapping(source = "title", target = "title")
         @Mapping(source = "director", target = "director")
         @Mapping(source = "releaseYear", target = "releaseYear")
+        @Mapping(source = "actors", target = "actorIds")
      */
 
     MovieDTO toDTO(Movie movie);

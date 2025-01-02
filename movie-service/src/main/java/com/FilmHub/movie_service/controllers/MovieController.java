@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Set;
 
 @Validated  // Activa la validación de beans en el controlador
 @RestController
@@ -58,7 +59,7 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMovie);
     }
 
-    // Actualizar película
+    // Actualizar pelicula
     @PutMapping("/{id}")
     public ResponseEntity<?> updateMovie(@PathVariable Long id, @RequestBody MovieRequest newMovie) {
         // Excepciones posibles que pueden ser lanzadas:
@@ -66,6 +67,13 @@ public class MovieController {
         // DuplicateMovieException si ya existe una película con el mismo título
         MovieDTO updatedMovie = movieService.updateMovie(id, newMovie);
         return ResponseEntity.ok(updatedMovie);
+    }
+
+    // Añadir actor a pelicula
+    @PostMapping("/{movieId}/actors")
+    public ResponseEntity<?> addActorsToMovie(@PathVariable Long movieId, @RequestBody Set<Long> actorIds) {
+        MovieDTO updatedMovie = movieService.addActorsToMovie(movieId, actorIds);
+        return ResponseEntity.status(HttpStatus.CREATED).body(updatedMovie);
     }
 
     // Eliminar película

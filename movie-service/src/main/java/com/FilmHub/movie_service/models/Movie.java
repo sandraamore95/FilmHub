@@ -15,6 +15,7 @@ public class Movie {
 
     private int releaseYear;
 
+    //relacion movie -> actor
     @ManyToMany
     @JoinTable(
             name = "movie_actor",
@@ -23,16 +24,16 @@ public class Movie {
     )
     private Set<Actor> actors = new HashSet<>();
 
-    public Movie(Long id, String title, int releaseYear, Set<Actor> actors) {
+    public Movie(Long id, String title, int releaseYear) {
         this.id = id;
         this.title = title;
         this.releaseYear = releaseYear;
-        this.actors = actors;
     }
 
     public Movie() {
     }
 
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -56,7 +57,15 @@ public class Movie {
     public void setReleaseYear(int releaseYear) {
         this.releaseYear = releaseYear;
     }
-//@Data -> constructores, getter, setter
+
+    public Set<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(Set<Actor> actors) {
+        this.actors = actors;
+    }
+
 
 
 }

@@ -1,11 +1,14 @@
 package com.FilmHub.movie_service.controllers;
 import com.FilmHub.movie_service.payload.dto.ActorDTO;
+import com.FilmHub.movie_service.payload.dto.MovieDTO;
 import com.FilmHub.movie_service.payload.request.ActorRequest;
 import com.FilmHub.movie_service.service.ActorService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/actors")
@@ -43,6 +46,13 @@ public class ActorController {
     public ResponseEntity<ActorDTO> updateActor(@PathVariable Long id, @Validated @RequestBody ActorRequest newActor) {
         ActorDTO updatedActor = actorService.updateActor(id, newActor);
         return ResponseEntity.ok(updatedActor);
+    }
+
+    // Añadir pelicula a actor
+    @PostMapping("/{actorId}/movies")
+    public ResponseEntity<?> addMoviesToActor(@PathVariable Long actorId, @RequestBody Set<Long> moviesIds) {
+        ActorDTO updatedActor = actorService.addMovieToActor(actorId, moviesIds);
+        return ResponseEntity.status(HttpStatus.CREATED).body(updatedActor);
     }
 
     // Eliminar actor

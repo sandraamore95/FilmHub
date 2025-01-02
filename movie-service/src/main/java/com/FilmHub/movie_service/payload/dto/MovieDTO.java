@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.Set;
+
 @Getter
 @Setter
 public class MovieDTO {
@@ -19,19 +22,9 @@ public class MovieDTO {
     @Min(value = 1888, message = "El año de estreno no puede ser anterior a 1888")
     private int releaseYear;
 
-    //@Data -> constructores, getter, setter
+    private List<Long> actorIds;
 
-
-    public MovieDTO() {
-    }
-
-    public MovieDTO(Long id, String title, String director, int releaseYear) {
-        this.id = id;
-        this.title = title;
-        this.director = director;
-        this.releaseYear = releaseYear;
-    }
-
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -56,7 +49,6 @@ public class MovieDTO {
         this.director = director;
     }
 
-
     public int getReleaseYear() {
         return releaseYear;
     }
@@ -65,4 +57,11 @@ public class MovieDTO {
         this.releaseYear = releaseYear;
     }
 
+    public List<Long> getActorIds() {
+        return actorIds;
+    }
+
+    public void setActorIds(List<Long> actorIds) {
+        this.actorIds = actorIds;
+    }
 }
